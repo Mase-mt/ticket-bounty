@@ -1,30 +1,32 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ticketPath } from "@/paths";
 import Link from "next/link";
 import { TICKET_ICONS } from "../constants";
 import { Ticket } from "../types";
 import { LucideSquareArrowOutUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 
 type TicketItemsProp = {
   ticket: Ticket;
+  isDetail: boolean;
 };
 
-const TicketItem = ({ ticket }: TicketItemsProp) => {
+const TicketItem = ({ ticket, isDetail }: TicketItemsProp) => {
   const detailButton = (
-      <Button asChild variant={"outline"} size={"icon"}>
-        <Link href={ticketPath(ticket.id)}>
-        <LucideSquareArrowOutUpRight className="w-4 h-4"/>
+    <Button asChild variant={"outline"} size={"icon"}>
+      <Link href={ticketPath(ticket.id)}>
+        <LucideSquareArrowOutUpRight className="w-4 h-4" />
       </Link>
-      </Button>
+    </Button>
   );
   return (
-    <div className="w-full max-w-[420px] flex gap-x-1">
+    <div
+      className={clsx("w-full flex gap-x-1", {
+        "max-w-[580px]": isDetail,
+        "max-w-[420px]": !isDetail,
+      })}
+    >
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex gap-x-2">
@@ -33,13 +35,17 @@ const TicketItem = ({ ticket }: TicketItemsProp) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <span className="line-clamp-3 whitespace-break-spaces">
+          <span
+            className={clsx("whitespace-break-spaces", {
+              "line-clamp-3": !isDetail,
+            })}
+          >
             {ticket.content}
           </span>
         </CardContent>
       </Card>
       <div className="flex flex-col gap-y-2.5">
-      {detailButton}
+        {isDetail ? null : detailButton}
       </div>
     </div>
   );
