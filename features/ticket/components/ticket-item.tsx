@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 type TicketItemsProp = {
   ticket: Ticket;
-  isDetail: boolean;
+  isDetail?: boolean;
 };
 
 const TicketItem = ({ ticket, isDetail }: TicketItemsProp) => {
